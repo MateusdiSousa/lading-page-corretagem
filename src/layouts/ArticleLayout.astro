@@ -1,0 +1,119 @@
+---
+import BaseLayout from "./BaseLayout.astro";
+import LeadCTA from "../components/LeadCTA.astro";
+
+interface Props {
+  title: string;
+  description: string;
+  image?: string;
+  category?: string;
+  date?: string;
+  readTime?: string;
+}
+
+const {
+  title,
+  description,
+  image,
+  category = "Mercado imobiliário",
+  date,
+  readTime = "5 min",
+} = Astro.props;
+
+const phone = "5511999999999";
+
+const whatsappUrl =
+  `https://wa.me/${phone}?text=${encodeURIComponent(
+    "Olá, Penholato! Vi um conteúdo no seu site e gostaria de tirar uma dúvida."
+  )}`;
+---
+
+<BaseLayout
+  title={title}
+  description={description}
+  image={image}
+>
+
+  <article class="article-page">
+
+    <header class="article-header">
+
+      <div class="container article-header-inner">
+
+        <span class="eyebrow">
+          {category}
+        </span>
+
+        <h1>{title}</h1>
+
+        <p class="article-lead">
+          {description}
+        </p>
+
+        <div class="article-meta">
+
+          {
+            date && (
+              <span>{date}</span>
+            )
+          }
+
+          <span>{readTime} de leitura</span>
+
+        </div>
+
+      </div>
+
+    </header>
+
+
+    {
+      image && (
+        <div class="container article-cover">
+
+          <img
+            src={image}
+            alt={title}
+          />
+
+        </div>
+      )
+    }
+
+
+    <div class="container article-layout">
+
+      <aside class="article-sidebar">
+
+        <div class="toc">
+
+          <span>
+            Neste artigo
+          </span>
+
+          <div id="toc-content">
+            <!-- preenchido posteriormente -->
+          </div>
+
+        </div>
+
+      </aside>
+
+
+      <main class="article-content">
+
+        <slot />
+
+        <LeadCTA
+          title="Está pensando em comprar um imóvel?"
+          description="Posso te ajudar a entender as opções e fazer uma simulação."
+          href={whatsappUrl}
+        />
+
+      </main>
+
+    </div>
+
+  </article>
+
+</BaseLayout>

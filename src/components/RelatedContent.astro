@@ -1,0 +1,241 @@
+---
+import { getCollection } from 'astro:content';
+
+interface RelatedItem {
+  type: 'imovel' | 'bairro' | 'artigo';
+  slug: string;
+}
+
+interface Props {
+  items?: RelatedItem[];
+}
+
+const { items = [] } = Astro.props;
+
+if (items.length > 0) {
+  var imoveis = await getCollection('imoveis');
+  var bairros = await getCollection('bairros');
+  var artigos = await getCollection('artigos');
+}
+
+const getContent = (item: RelatedItem) => {
+  switch (item.type) {
+    case 'imovel':
+      return imoveis?.find((content) => content.data.slug === item.slug);
+
+    case 'bairro':
+      return bairros?.find((content) => content.data.slug === item.slug);
+
+    case 'artigo':
+      return artigos?.find((content) => content.data.slug === item.slug);
+  }
+};
+
+const getUrl = (item: RelatedItem) => {
+  const prefix = {
+    imovel: 'imoveis',
+    bairro: 'bairros',
+    artigo: 'artigos',
+  };
+
+  return `/${prefix[item.type]}/${item.slug}`;
+};
+
+const relatedContent = items
+  .map((item) => ({
+    item,
+    content: getContent(item),
+  }))
+  .filter((item) => item.content);
+---
+
+{relatedContent.length > 0 && (
+  <section class="related">
+    <div class="related-header">
+      <span class="eyebrow">Continue navegando</span>
+
+      <h2>
+        Conteúdos relacionados
+      </h2>
+
+      <p>
+        Veja outros imóveis, bairros e conteúdos que podem ajudar
+        na sua busca.
+      </p>
+    </div>
+
+    <div class="related-grid">
+      {relatedContent.map(({ item, content }) => (
+        <a
+          href={getUrl(item)}
+          class="related-card"
+        >
+          {content?.data.image && (
+            <div class="related-image">
+              <img
+                src={content.data.image}
+                alt={content.data.title}
+                loading="lazy"
+              />
+            </div>
+          )}
+
+          <div class="related-body">
+
+            <span class="related-type">
+              {item.type === 'imovel' && 'Imóvel'}
+              {item.type === 'bairro' && 'Bairro'}
+              {item.type === 'artigo' && 'Artigo'}
+            </span>
+
+            <h3>
+              {content?.data.title}
+            </h3>
+
+            <p>
+              {content?.data.description}
+            </p>
+
+            <span class="related-link">
+              Ver conteúdo →
+            </span>
+
+          </div>
+        </a>
+      ))}
+    </div>
+  </section>
+)}
+
+<style>
+  .related {
+    margin-top: 80px;
+    padding-top: 70px;
+    border-top: 1px solid #e8e8e4;
+  }
+
+  .related-header {
+    max-width: 650px;
+    margin-bottom: 35px;
+  }
+
+  .eyebrow {
+    display: block;
+    margin-bottom: 12px;
+    font-size: 12px;
+    font-weight: 700;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: #1f5c45;
+  }
+
+  .related-header h2 {
+    margin: 0 0 12px;
+    font-size: 34px;
+    line-height: 1.15;
+    letter-spacing: -0.03em;
+    color: #181818;
+  }
+
+  .related-header p {
+    margin: 0;
+    color: #666;
+    line-height: 1.6;
+  }
+
+  .related-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 24px;
+  }
+
+  .related-card {
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+    border: 1px solid #e8e8e4;
+    border-radius: 16px;
+    background: white;
+    text-decoration: none;
+    color: inherit;
+
+    transition:
+      transform 0.2s ease,
+      box-shadow 0.2s ease;
+  }
+
+  .related-card:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 12px 35px rgba(0, 0, 0, 0.08);
+  }
+
+  .related-image {
+    aspect-ratio: 16 / 9;
+    overflow: hidden;
+    background: #f1f1ed;
+  }
+
+  .related-image img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+
+    transition: transform 0.3s ease;
+  }
+
+  .related-card:hover .related-image img {
+    transform: scale(1.04);
+  }
+
+  .related-body {
+    display: flex;
+    flex-direction: column;
+    padding: 22px;
+  }
+
+  .related-type {
+    margin-bottom: 10px;
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: #1f5c45;
+  }
+
+  .related-body h3 {
+    margin: 0 0 10px;
+    font-size: 20px;
+    line-height: 1.25;
+    color: #181818;
+  }
+
+  .related-body p {
+    margin: 0;
+    color: #666;
+    line-height: 1.5;
+    font-size: 14px;
+  }
+
+  .related-link {
+    margin-top: 20px;
+    font-size: 14px;
+    font-weight: 700;
+    color: #1f5c45;
+  }
+
+  @media (max-width: 800px) {
+    .related-grid {
+      grid-template-columns: repeat(2, 1fr);
+    }
+  }
+
+  @media (max-width: 560px) {
+    .related-grid {
+      grid-template-columns: 1fr;
+    }
+
+    .related-header h2 {
+      font-size: 28px;
+    }
+  }
+</style>

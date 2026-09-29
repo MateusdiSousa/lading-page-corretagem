@@ -1,0 +1,49 @@
+---
+import { getCollection, render } from "astro:content";
+import NeighborhoodLayout from "../../layouts/NeighborhoodLayout.astro";
+import RelatedContent from "../../components/RelatedContent.astro";
+import { WhatsappUrl } from "../../data/site/contato";
+
+export async function getStaticPaths() {
+  const bairros = await getCollection("bairros");
+
+  return bairros.map((bairro) => {
+    console.log("BAIRRO: " + bairro.id);
+
+    return {
+      params: {
+        slug: bairro.id,
+      },
+      props: {
+        bairro,
+      },
+    };
+  });
+}
+
+const { bairro } = Astro.props;
+
+const { Content } = await render(bairro);
+
+const { title, description, image, city, state, related } = bairro.data;
+---
+
+<NeighborhoodLayout
+  title={title}
+  description={description}
+  image={image}
+  city={city}
+  state={state}
+>
+  <Content />
+  <div class="article-content">
+    <slot />
+
+    <RelatedContent items={related} />
+    <LeadCTA
+      title="Está pensando em comprar um imóvel?"
+      description="Posso te ajudar a entender as opções e fazer uma simulação."
+      href={WhatsappUrl}
+    />
+  </div>
+</NeighborhoodLayout>

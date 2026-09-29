@@ -1,0 +1,46 @@
+---
+import { getCollection, render } from "astro:content";
+import ArticleLayout from "../../layouts/ArticleLayout.astro";
+import RelatedContent from "../../components/RelatedContent.astro";
+import LeadCTA from "../../components/LeadCTA.astro";
+import { WhatsappUrl } from "../../data/site/contato";
+
+export async function getStaticPaths() {
+  const artigos = await getCollection("artigos");
+
+  return artigos.map((artigo) => ({
+    params: {
+      slug: artigo.id,
+    },
+    props: {
+      artigo,
+    },
+  }));
+}
+
+const { artigo } = Astro.props;
+
+const { Content } = await render(artigo);
+
+const { title, description, image, category, date, readTime, related } =
+  artigo.data;
+---
+
+<ArticleLayout
+  title={title}
+  description={description}
+  image={image}
+  category={category}
+>
+  <Content />
+
+  <div class="article-content">
+    <slot />
+    <RelatedContent items={related} />
+    <LeadCTA
+      title="Está pensando em comprar um imóvel?"
+      description="Posso te ajudar a entender as opções e fazer uma simulação."
+      href={WhatsappUrl}
+    />
+  </div>
+</ArticleLayout>

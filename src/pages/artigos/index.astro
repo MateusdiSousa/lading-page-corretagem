@@ -1,0 +1,277 @@
+---
+import { getCollection } from 'astro:content';
+import BaseLayout from '../../layouts/BaseLayout.astro';
+
+const artigos = await getCollection('artigos');
+
+// Ordena pelos mais recentes
+artigos.sort((a, b) => {
+  const dateA = a.data.date?.getTime() ?? 0;
+  const dateB = b.data.date?.getTime() ?? 0;
+
+  return dateB - dateA;
+});
+---
+
+<BaseLayout
+  title="Artigos sobre imóveis | Penholato"
+  description="Conteúdos sobre financiamento imobiliário, Minha Casa Minha Vida, FGTS, INCC e compra de imóveis."
+>
+  <main class="listing-page">
+
+    <section class="listing-hero">
+      <div class="container">
+        <span class="eyebrow">Conteúdo imobiliário</span>
+
+        <h1>
+          Informação para você
+          <span>comprar melhor.</span>
+        </h1>
+
+        <p>
+          Entenda financiamento, documentação, programas habitacionais,
+          custos e tudo o que envolve a compra de um imóvel.
+        </p>
+      </div>
+    </section>
+
+    <section class="listing-content">
+      <div class="container">
+
+        {artigos.length > 0 ? (
+          <div class="card-grid">
+            {artigos.map((artigo) => (
+              <a
+                href={`/artigos/${artigo.data.slug}`}
+                class="content-card"
+              >
+                {artigo.data.image && (
+                  <div class="card-image">
+                    <img
+                      src={artigo.data.image}
+                      alt={artigo.data.title}
+                      loading="lazy"
+                    />
+                  </div>
+                )}
+
+                <div class="card-body">
+
+                  {artigo.data.category && (
+                    <span class="card-category">
+                      {artigo.data.category}
+                    </span>
+                  )}
+
+                  <h2>{artigo.data.title}</h2>
+
+                  <p>
+                    {artigo.data.description}
+                  </p>
+
+                  <div class="card-footer">
+
+                    {artigo.data.date && (
+                      <time datetime={artigo.data.date.toISOString()}>
+                        {artigo.data.date.toLocaleDateString('pt-BR')}
+                      </time>
+                    )}
+
+                    {artigo.data.readTime && (
+                      <span>
+                        {artigo.data.readTime} min de leitura
+                      </span>
+                    )}
+
+                  </div>
+
+                </div>
+              </a>
+            ))}
+          </div>
+        ) : (
+          <div class="empty-state">
+            <h2>Nenhum artigo publicado ainda.</h2>
+            <p>
+              Em breve você encontrará novos conteúdos aqui.
+            </p>
+          </div>
+        )}
+
+      </div>
+    </section>
+
+  </main>
+</BaseLayout>
+
+<style>
+  .listing-page {
+    background: #fafaf8;
+    min-height: 100vh;
+  }
+
+  .container {
+    width: min(1120px, calc(100% - 40px));
+    margin: 0 auto;
+  }
+
+  .listing-hero {
+    padding: 100px 0 70px;
+    border-bottom: 1px solid #e8e8e4;
+  }
+
+  .eyebrow {
+    display: inline-block;
+    margin-bottom: 18px;
+    font-size: 13px;
+    font-weight: 700;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: #1f5c45;
+  }
+
+  h1 {
+    max-width: 700px;
+    margin: 0;
+    font-size: clamp(42px, 6vw, 72px);
+    line-height: 1.02;
+    letter-spacing: -0.04em;
+    color: #181818;
+  }
+
+  h1 span {
+    display: block;
+    color: #1f5c45;
+  }
+
+  .listing-hero p {
+    max-width: 650px;
+    margin: 28px 0 0;
+    font-size: 18px;
+    line-height: 1.7;
+    color: #666;
+  }
+
+  .listing-content {
+    padding: 70px 0 100px;
+  }
+
+  .card-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 28px;
+  }
+
+  .content-card {
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+    background: white;
+    border: 1px solid #e8e8e4;
+    border-radius: 18px;
+    color: inherit;
+    text-decoration: none;
+    transition:
+      transform 0.2s ease,
+      box-shadow 0.2s ease;
+  }
+
+  .content-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 15px 40px rgba(0, 0, 0, 0.08);
+  }
+
+  .card-image {
+    aspect-ratio: 16 / 9;
+    overflow: hidden;
+    background: #f1f1ed;
+  }
+
+  .card-image img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.4s ease;
+  }
+
+  .content-card:hover .card-image img {
+    transform: scale(1.04);
+  }
+
+  .card-body {
+    display: flex;
+    flex: 1;
+    flex-direction: column;
+    padding: 26px;
+  }
+
+  .card-category {
+    margin-bottom: 12px;
+    font-size: 12px;
+    font-weight: 700;
+    letter-spacing: 0.07em;
+    text-transform: uppercase;
+    color: #1f5c45;
+  }
+
+  .card-body h2 {
+    margin: 0 0 12px;
+    font-size: 22px;
+    line-height: 1.2;
+    letter-spacing: -0.02em;
+    color: #181818;
+  }
+
+  .card-body p {
+    margin: 0;
+    color: #666;
+    line-height: 1.6;
+  }
+
+  .card-footer {
+    display: flex;
+    justify-content: space-between;
+    gap: 15px;
+    margin-top: auto;
+    padding-top: 25px;
+    font-size: 13px;
+    color: #888;
+  }
+
+  .empty-state {
+    padding: 80px 20px;
+    text-align: center;
+  }
+
+  .empty-state h2 {
+    margin-bottom: 10px;
+  }
+
+  .empty-state p {
+    color: #666;
+  }
+
+  @media (max-width: 800px) {
+    .listing-hero {
+      padding: 70px 0 50px;
+    }
+
+    .card-grid {
+      grid-template-columns: repeat(2, 1fr);
+    }
+  }
+
+  @media (max-width: 560px) {
+    .container {
+      width: min(100% - 28px, 1120px);
+    }
+
+    .card-grid {
+      grid-template-columns: 1fr;
+    }
+
+    .listing-content {
+      padding-top: 45px;
+    }
+  }
+</style>

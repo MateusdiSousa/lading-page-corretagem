@@ -1,0 +1,55 @@
+---
+import { getCollection, render } from "astro:content";
+import PropertyLayout from "../../layouts/PropertyLayout.astro";
+import RelatedContent from "../../components/RelatedContent.astro";
+import LeadCTA from "../../components/LeadCTA.astro";
+import { WhatsappUrl } from "../../data/site/contato";
+
+export async function getStaticPaths() {
+  const imoveis = await getCollection("imoveis");
+
+  return imoveis.map((imovel) => {
+    console.log("IMÓVEL:", imovel.id);
+
+    return {
+      params: {
+        slug: imovel.id,
+      },
+      props: {
+        imovel,
+      },
+    };
+  });
+}
+
+const { imovel } = Astro.props;
+
+const { Content } = await render(imovel);
+
+const { title, description, image, location, property, related } = imovel.data;
+---
+
+<PropertyLayout
+  title={title}
+  description={description}
+  image={image}
+  neighborhood={location.neighborhood}
+  city={location.city}
+  bedrooms={property.bedrooms}
+  bathrooms={property.bathrooms}
+  parking={property.parking}
+  balcony={property.balcony}
+>
+  <Content />
+  <div class="article-content">
+    <slot />
+
+    <RelatedContent items={related} />
+
+    <LeadCTA
+          title="Está pensando em comprar um imóvel?"
+          description="Posso te ajudar a entender as opções e fazer uma simulação."
+          href={WhatsappUrl}
+        />
+  </div>
+</PropertyLayout>

@@ -1,0 +1,19 @@
+---
+const phone = "5512988161844";
+
+const message =
+  "Olá, Penholato! Encontrei seu site e gostaria de saber mais sobre os imóveis disponíveis.";
+
+const whatsappUrl =
+  `https://wa.me/${phone}?text=${encodeURIComponent(message)}`;
+---
+
+<a
+  href={whatsappUrl}
+  class="whatsapp-button"
+  target="_blank"
+  rel="noopener noreferrer"
+  aria-label="Falar com Penholato pelo WhatsApp"
+>
+  Falar pelo WhatsApp
+</a>

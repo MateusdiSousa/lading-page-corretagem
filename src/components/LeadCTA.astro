@@ -1,0 +1,38 @@
+---
+interface Props {
+  title: string;
+  description: string;
+  href: string;
+}
+
+const {
+  title,
+  description,
+  href,
+} = Astro.props;
+---
+
+<section class="lead-cta">
+
+  <div>
+
+    <span class="eyebrow">
+      Atendimento personalizado
+    </span>
+
+    <h2>{title}</h2>
+
+    <p>{description}</p>
+
+  </div>
+
+  <a
+    href={href}
+    target="_blank"
+    rel="noopener noreferrer"
+    class="cta-button"
+  >
+    Falar comigo no WhatsApp
+  </a>
+
+</section>

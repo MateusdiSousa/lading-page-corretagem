@@ -1,0 +1,130 @@
+---
+import BaseLayout from "./BaseLayout.astro";
+import LeadCTA from "../components/LeadCTA.astro";
+
+interface Props {
+  title: string;
+  description: string;
+  image?: string;
+  city?: string;
+  state?: string;
+  whatsappMessage?: string;
+}
+
+const {
+  title,
+  description,
+  image,
+  city = "São Paulo",
+  state = "SP",
+  whatsappMessage,
+} = Astro.props;
+
+const phone = "5511999999999";
+
+const message =
+  whatsappMessage ??
+  `Olá, Penholato! Estou procurando um imóvel nessa região.`;
+
+const whatsappUrl =
+  `https://wa.me/${phone}?text=${encodeURIComponent(message)}`;
+---
+
+<BaseLayout
+  title={title}
+  description={description}
+  image={image}
+>
+
+  <article class="neighborhood-page">
+
+    <!-- HERO -->
+
+    <section class="neighborhood-hero">
+
+      <div class="container">
+
+        <div class="neighborhood-hero-content">
+
+          <span class="eyebrow">
+            Guia da região · {city}/{state}
+          </span>
+
+          <h1>{title}</h1>
+
+          <p>
+            {description}
+          </p>
+
+          <a
+            href={whatsappUrl}
+            class="primary-button"
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            Encontrar imóveis
+          </a>
+
+        </div>
+
+      </div>
+
+    </section>
+
+
+    <!-- CONTEÚDO -->
+
+    <div class="container neighborhood-content">
+
+      <main>
+
+        <slot />
+
+      </main>
+
+      <aside class="neighborhood-sidebar">
+
+        <div class="sticky-card">
+
+          <span class="eyebrow">
+            Está procurando imóvel?
+          </span>
+
+          <h2>
+            Posso te ajudar a encontrar uma opção.
+          </h2>
+
+          <p>
+            Me conte seu orçamento, região de interesse
+            e o tipo de imóvel que procura.
+          </p>
+
+          <a
+            href={whatsappUrl}
+            class="primary-button"
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            Falar comigo
+          </a>
+
+        </div>
+
+      </aside>
+
+    </div>
+
+
+    <div class="container">
+
+      <LeadCTA
+        title="Procurando apartamento nessa região?"
+        description="Posso verificar os imóveis e lançamentos disponíveis atualmente."
+        href={whatsappUrl}
+      />
+
+    </div>
+
+  </article>
+
+</BaseLayout>

@@ -1,0 +1,173 @@
+---
+import {
+  getCollection,
+  render,
+} from "astro:content";
+
+import BaseLayout from "../layouts/BaseLayout.astro";
+
+export async function getStaticPaths() {
+  const pages = await getCollection("site");
+
+  return pages.map((page) => ({
+    params: {
+      slug: page.data.slug,
+    },
+
+    props: {
+      page,
+    },
+  }));
+}
+
+const { page } = Astro.props;
+
+const { Content } = await render(page);
+
+const seoTitle =
+  page.data.seo?.title ??
+  page.data.title;
+
+const seoDescription =
+  page.data.seo?.description ??
+  page.data.description;
+---
+
+<BaseLayout
+  title={seoTitle}
+  description={seoDescription}
+  image={page.data.image}
+>
+  <article class={`page page-${page.data.type}`}>
+
+    {
+      page.data.image && (
+        <img
+          src={page.data.image}
+          alt={page.data.title}
+          class="hero-image"
+        />
+      )
+    }
+
+    <div class="container content">
+
+      <div class="breadcrumbs">
+        <a href="/">Início</a>
+        <span>›</span>
+        <span>{page.data.title}</span>
+      </div>
+
+      <header class="page-header">
+        <span class="badge">
+          {
+            page.data.type === "imovel"
+              ? "Imóvel"
+              : page.data.type === "bairro"
+                ? "Bairro"
+                : "Conteúdo"
+          }
+        </span>
+
+        <h1>{page.data.title}</h1>
+
+        <p>
+          {page.data.description}
+        </p>
+      </header>
+
+      {
+        page.data.type === "imovel" &&
+        page.data.property && (
+          <section class="property-info">
+
+            {
+              page.data.property.bedrooms && (
+                <div>
+                  <strong>
+                    {page.data.property.bedrooms}
+                  </strong>
+                  <span>
+                    dormitórios
+                  </span>
+                </div>
+              )
+            }
+
+            {
+              page.data.property.bathrooms && (
+                <div>
+                  <strong>
+                    {page.data.property.bathrooms}
+                  </strong>
+                  <span>
+                    banheiro(s)
+                  </span>
+                </div>
+              )
+            }
+
+            {
+              page.data.property.parking && (
+                <div>
+                  <strong>
+                    {page.data.property.parking}
+                  </strong>
+                  <span>
+                    vaga(s)
+                  </span>
+                </div>
+              )
+            }
+
+            {
+              page.data.property.balcony && (
+                <div>
+                  <strong>✓</strong>
+                  <span>
+                    varanda
+                  </span>
+                </div>
+              )
+            }
+
+          </section>
+        )
+      }
+
+      <div class="article-content">
+        <Content />
+      </div>
+
+      {
+        page.data.type === "imovel" && (
+          <section class="cta">
+
+            <h2>
+              Quer saber os valores?
+            </h2>
+
+            <p>
+              Me chame pelo WhatsApp e
+              consulte as unidades disponíveis.
+            </p>
+
+            <a
+              href={`https://wa.me/5511999999999?text=${encodeURIComponent(
+                `Olá, Penholato! Quero saber mais sobre ${page.data.title}.`
+              )}`}
+              target="_blank"
+              rel="noopener noreferrer"
+              class="cta-button"
+            >
+              Quero saber mais
+            </a>
+
+          </section>
+        )
+      }
+
+    </div>
+
+  </article>
+</BaseLayout>

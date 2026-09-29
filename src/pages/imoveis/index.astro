@@ -1,0 +1,91 @@
+---
+import {
+  getCollection,
+} from "astro:content";
+
+import BaseLayout from "../../layouts/BaseLayout.astro";
+
+const properties = await getCollection(
+  "imoveis"
+);
+---
+
+<BaseLayout
+  title="Apartamentos à venda em São Paulo | Penholato"
+  description="Confira apartamentos e lançamentos disponíveis na Zona Sul de São Paulo."
+>
+
+  <section class="section">
+
+    <div class="container">
+
+      <span class="badge">
+        Imóveis
+      </span>
+
+      <h1>
+        Apartamentos à venda
+      </h1>
+
+      <p>
+        Confira algumas das opções
+        disponíveis na Zona Sul de São Paulo.
+      </p>
+
+
+      <div class="property-grid">
+
+        {
+          properties.map((property) => (
+            <a
+              href={`/imoveis/${property.data.slug}/`}
+              class="property-card"
+            >
+
+              {
+                property.data.image && (
+                  <img
+                    src={property.data.image}
+                    alt={property.data.title}
+                    loading="lazy"
+                  />
+                )
+              }
+
+              <div>
+
+                <h2>
+                  {property.data.title}
+                </h2>
+
+                <p>
+                  {property.data.description}
+                </p>
+
+                {
+                  property.data.location && (
+                    <small>
+                      {
+                        property.data.location.neighborhood
+                      },
+                      {" "}
+                      {
+                        property.data.location.city
+                      }
+                    </small>
+                  )
+                }
+
+              </div>
+
+            </a>
+          ))
+        }
+
+      </div>
+
+    </div>
+
+  </section>
+
+</BaseLayout>
