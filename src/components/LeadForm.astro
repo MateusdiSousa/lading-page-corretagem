@@ -1,0 +1,355 @@
+---
+
+---
+
+<form class="lead-form">
+    <div class="form-header">
+        <span class="form-badge">ENCONTRE SEU IMÓVEL</span>
+
+        <h2>Vamos encontrar o imóvel ideal para você</h2>
+
+        <p>
+            Preencha seus dados e receba informações sobre imóveis que combinam
+            com o seu perfil.
+        </p>
+    </div>
+
+    <div class="honeypot-field" aria-hidden="true">
+        <label for="website"> Website </label>
+
+        <input
+            id="website"
+            name="website"
+            type="text"
+            tabindex="-1"
+            autocomplete="off"
+        />
+    </div>
+
+    <div class="form-fields">
+        <div class="field">
+            <label for="nome">Nome</label>
+
+            <input
+                id="nome"
+                name="nome"
+                type="text"
+                placeholder="Digite seu nome"
+                autocomplete="name"
+                required
+            />
+        </div>
+
+        <div class="field">
+            <label for="email">E-mail</label>
+
+            <input
+                id="email"
+                name="email"
+                type="email"
+                placeholder="seuemail@email.com"
+                autocomplete="email"
+                required
+            />
+        </div>
+
+        <div class="field">
+            <label for="telefone">WhatsApp</label>
+
+            <input
+                id="telefone"
+                name="telefone"
+                type="tel"
+                placeholder="(11) 99999-9999"
+                autocomplete="tel"
+                required
+            />
+        </div>
+
+        <div class="field">
+            <label for="faixa-renda">Faixa de renda</label>
+
+            <select id="faixa-renda" name="faixa_renda" required>
+                <option value="" disabled selected>
+                    Selecione sua faixa de renda
+                </option>
+
+                <option value="ate-3000"> Até R$ 3.000 </option>
+
+                <option value="3000-5000"> R$ 3.000 a R$ 5.000 </option>
+
+                <option value="5000-8000"> R$ 5.000 a R$ 8.000 </option>
+
+                <option value="8000-12000"> R$ 8.000 a R$ 12.000 </option>
+
+                <option value="acima-12000"> Acima de R$ 12.000 </option>
+            </select>
+        </div>
+    </div>
+
+    <button type="submit" class="submit-button">
+        <span>Quero receber opções</span>
+
+        <svg viewBox="0 0 24 24" fill="none" aria-hidden="true">
+            <path
+                d="M5 12h14M13 6l6 6-6 6"
+                stroke="currentColor"
+                stroke-width="2"
+                stroke-linecap="round"
+                stroke-linejoin="round"></path>
+        </svg>
+    </button>
+
+    <p class="privacy">
+        Seus dados serão utilizados apenas para entrar em contato sobre
+        oportunidades imobiliárias.
+    </p>
+    <p class="form-message" aria-live="polite"></p>
+</form>
+
+<style>
+    .honeypot-field {
+        position: absolute;
+        left: -9999px;
+        width: 1px;
+        height: 1px;
+        overflow: hidden;
+    }
+    .lead-form {
+        width: 100%;
+        max-width: 520px;
+        height: 100%;
+        max-height: 800px;
+        padding: 32px;
+        border: 1px solid #e5e7eb;
+        border-radius: 20px;
+        background: #ffffff;
+        box-shadow: 0 12px 40px rgba(0, 0, 0, 0.08);
+    }
+
+    .form-header {
+        margin-bottom: 28px;
+    }
+
+    .form-badge {
+        display: inline-block;
+        margin-bottom: 12px;
+        padding: 6px 10px;
+        border-radius: 999px;
+        background: #f3f4f6;
+        color: #555;
+        font-size: 11px;
+        font-weight: 700;
+        letter-spacing: 0.08em;
+    }
+
+    .form-header h2 {
+        margin: 0 0 10px;
+        color: #111827;
+        font-size: 28px;
+        line-height: 1.2;
+        letter-spacing: -0.02em;
+    }
+
+    .form-header p {
+        margin: 0;
+        color: #6b7280;
+        font-size: 15px;
+        line-height: 1.6;
+    }
+
+    .form-fields {
+        display: flex;
+        flex-direction: column;
+        gap: 18px;
+    }
+
+    .field {
+        display: flex;
+        flex-direction: column;
+        gap: 7px;
+    }
+
+    .field label {
+        color: #374151;
+        font-size: 14px;
+        font-weight: 600;
+    }
+
+    .field input,
+    .field select {
+        width: 100%;
+        height: 50px;
+        box-sizing: border-box;
+        padding: 0 15px;
+        border: 1px solid #d1d5db;
+        border-radius: 10px;
+        outline: none;
+        background: #ffffff;
+        color: #111827;
+        font-family: inherit;
+        font-size: 15px;
+        transition:
+            border-color 0.2s ease,
+            box-shadow 0.2s ease;
+    }
+
+    .field input::placeholder {
+        color: #9ca3af;
+    }
+
+    .field input:focus,
+    .field select:focus {
+        border-color: #111827;
+        box-shadow: 0 0 0 3px rgba(17, 24, 39, 0.08);
+    }
+
+    .field select {
+        cursor: pointer;
+    }
+
+    .submit-button {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 10px;
+
+        width: 100%;
+        height: 52px;
+        margin-top: 24px;
+
+        border: none;
+        border-radius: 10px;
+
+        background: #111827;
+        color: #ffffff;
+
+        font-family: inherit;
+        font-size: 15px;
+        font-weight: 700;
+
+        cursor: pointer;
+
+        transition:
+            transform 0.2s ease,
+            background 0.2s ease,
+            box-shadow 0.2s ease;
+    }
+
+    .submit-button svg {
+        width: 19px;
+        height: 19px;
+        transition: transform 0.2s ease;
+    }
+
+    .submit-button:hover {
+        background: #000000;
+        box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
+    }
+
+    .submit-button:hover svg {
+        transform: translateX(3px);
+    }
+
+    .submit-button:active {
+        transform: translateY(1px);
+    }
+
+    .privacy {
+        margin: 14px 4px 0;
+        color: #9ca3af;
+        font-size: 11px;
+        line-height: 1.5;
+        text-align: center;
+    }
+
+    @media (max-width: 600px) {
+        .lead-form {
+            padding: 24px 20px;
+            border-radius: 16px;
+        }
+
+        .form-header h2 {
+            font-size: 24px;
+        }
+    }
+</style>
+
+<script>
+    import { supabase } from "../lib/supabase";
+
+    const form = document.querySelector<HTMLFormElement>(".lead-form");
+    const button = form?.querySelector<HTMLButtonElement>(".submit-button");
+    const message = form?.querySelector<HTMLParagraphElement>(".form-message");
+
+    form?.addEventListener("submit", async (event) => {
+        event.preventDefault();
+
+        if (!button || !message) return;
+
+        if (button.disabled) {
+            return;
+        }
+
+        button.disabled = true;
+        button.textContent = "Enviando...";
+
+        const formData = new FormData(form);
+
+        const honeypot = formData.get("website");
+        const lead = {
+            honeypot: String(honeypot ?? ""),
+            nome: String(formData.get("nome") ?? "").trim(),
+            email: String(formData.get("email") ?? "").trim(),
+            telefone: String(formData.get("telefone") ?? "").trim(),
+            faixa_renda: String(formData.get("faixa_renda") ?? "").trim(),
+
+            // Contexto da página
+            pagina_origem: window.location.href,
+
+            // Página que trouxe o usuário para o seu site
+            referrer: document.referrer || null,
+
+            // Informações do navegador
+            user_agent: navigator.userAgent,
+        };
+
+        try {
+            const { data, error } = await supabase.functions.invoke(
+                "bright-endpoint",
+                { body: lead, method: "POST" },
+            );
+
+            if (error) {
+                console.error("Erro ao cadastrar lead:", error);
+                console.error("ERRO COMPLETO: ", error.context)
+
+                message.textContent =
+                    "Não foi possível enviar seus dados. Tente novamente.";
+
+                message.classList.add("error");
+
+                return;
+            }
+
+            if (data?.success == true) {
+                message.textContent =
+                    "Cadastro realizado com sucesso! Em breve entraremos em contato.";
+
+                message.classList.add("success");
+                form.reset();
+            }
+        } catch (error) {
+            console.error("Erro inesperado:", error);
+
+            message.textContent = "Ocorreu um erro. Tente novamente.";
+
+            message.classList.add("error");
+        } finally {
+            setTimeout(() => {
+                button.disabled = false;
+                button.textContent = "Quero receber opções";
+            });
+        }
+    });
+</script>

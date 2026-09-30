@@ -85,21 +85,17 @@ nav a {
   padding: 100px 0;
 
   background:
-    linear-gradient(
-      135deg,
+    linear-gradient(135deg,
       #f5f5f5,
-      #ffffff
-    );
+      #ffffff);
 }
 
 .hero h1 {
   max-width: 760px;
 
-  font-size: clamp(
-    2.4rem,
-    7vw,
-    4.5rem
-  );
+  font-size: clamp(2.4rem,
+      7vw,
+      4.5rem);
 
   line-height: 1.05;
 
@@ -171,10 +167,8 @@ nav a {
   display: grid;
 
   grid-template-columns:
-    repeat(
-      auto-fit,
-      minmax(280px, 1fr)
-    );
+    repeat(auto-fit,
+      minmax(280px, 1fr));
 
   gap: 24px;
 
@@ -206,8 +200,7 @@ nav a {
   transform: translateY(-3px);
 
   box-shadow:
-    0 10px 30px
-    rgba(0, 0, 0, 0.08);
+    0 10px 30px rgba(0, 0, 0, 0.08);
 }
 
 .property-card img {
@@ -216,7 +209,7 @@ nav a {
   object-fit: cover;
 }
 
-.property-card > div {
+.property-card>div {
   padding: 20px;
 }
 
@@ -262,11 +255,9 @@ nav a {
 }
 
 .page-header h1 {
-  font-size: clamp(
-    2.2rem,
-    6vw,
-    4rem
-  );
+  font-size: clamp(2.2rem,
+      6vw,
+      4rem);
 
   line-height: 1.1;
 }
@@ -284,17 +275,15 @@ nav a {
   display: grid;
 
   grid-template-columns:
-    repeat(
-      auto-fit,
-      minmax(120px, 1fr)
-    );
+    repeat(auto-fit,
+      minmax(120px, 1fr));
 
   gap: 12px;
 
   margin: 32px 0;
 }
 
-.property-info > div {
+.property-info>div {
   padding: 20px;
 
   border: 1px solid var(--border);
@@ -381,8 +370,7 @@ nav a {
   font-weight: 800;
 
   box-shadow:
-    0 5px 20px
-    rgba(0, 0, 0, 0.2);
+    0 5px 20px rgba(0, 0, 0, 0.2);
 }
 
 
@@ -570,9 +558,14 @@ nav a {
 }
 
 .property-content {
-  max-width: 820px;
+  /* max-width: 920px;
+   */
   margin: 80px auto;
+  display: grid;
+  grid-template-columns: minmax(0, 1.6fr) minmax(320px, 0.8fr);
+  gap: 24px;
 }
+
 
 .property-main {
   font-size: 1.08rem;
@@ -638,11 +631,9 @@ nav a {
   padding: 110px 0;
 
   background:
-    linear-gradient(
-      135deg,
+    linear-gradient(135deg,
       #f1f1ed,
-      #ffffff
-    );
+      #ffffff);
 }
 
 .neighborhood-hero-content {
@@ -769,7 +760,7 @@ nav a {
   border-left: 2px solid #1f5c45;
 }
 
-.toc > span {
+.toc>span {
   display: block;
 
   margin-bottom: 12px;
@@ -818,6 +809,10 @@ nav a {
 @media (max-width: 800px) {
 
   .property-hero {
+    grid-template-columns: 1fr;
+  }
+
+  .property-content {
     grid-template-columns: 1fr;
   }
 

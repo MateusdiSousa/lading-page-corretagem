@@ -28,7 +28,18 @@ const imoveis = defineCollection({
     location: z.object({
       neighborhood: z.string(),
       city: z.string(),
+      region: z.string()
     }),
+    
+    price: z.object({
+      min: z.number().optional(),
+      max: z.number().optional(),
+    }).optional(),
+
+    financing: z.object({
+      mcmv: z.boolean().optional(),
+      fgts: z.boolean().optional(),
+    }).optional(),
 
     related: relatedSchema,
 

@@ -3,6 +3,7 @@ import { getCollection, render } from "astro:content";
 import NeighborhoodLayout from "../../layouts/NeighborhoodLayout.astro";
 import RelatedContent from "../../components/RelatedContent.astro";
 import { WhatsappUrl } from "../../data/site/contato";
+import LeadCTA from "../../components/LeadCTA.astro";
 
 export async function getStaticPaths() {
   const bairros = await getCollection("bairros");

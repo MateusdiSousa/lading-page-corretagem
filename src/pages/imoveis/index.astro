@@ -1,91 +1,1574 @@
 ---
-import {
-  getCollection,
-} from "astro:content";
+import { getCollection } from 'astro:content';
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import { formatLocation } from '../../data/site/locations'
+import LeadForm from '../../components/LeadForm.astro';
 
-import BaseLayout from "../../layouts/BaseLayout.astro";
+const imoveis = await getCollection('imoveis');
 
-const properties = await getCollection(
-  "imoveis"
-);
+const regions = [
+  ...new Set(
+    imoveis.map(
+      (imovel) => imovel.data.location.region
+    )
+  ),
+].sort();
+
+const neighborhoods = [
+  ...new Set(
+    imoveis.map(
+      (imovel) => imovel.data.location.neighborhood
+    )
+  ),
+].sort();
+
+const bedrooms = [
+  ...new Set(
+    imoveis.map(
+      (imovel) => imovel.data.property.bedrooms
+    )
+  ),
+].sort((a, b) => a - b);
 ---
 
 <BaseLayout
-  title="Apartamentos à venda em São Paulo | Penholato"
-  description="Confira apartamentos e lançamentos disponíveis na Zona Sul de São Paulo."
+  title="Imóveis à venda em São Paulo | Penholato"
+  description="Encontre apartamentos e imóveis à venda em São Paulo. Consulte imóveis por região, bairro, dormitórios, preço e MCMV."
 >
+  <main class="properties-page">
 
-  <section class="section">
+    <!-- HERO -->
 
-    <div class="container">
+    <section class="properties-hero">
+      <div class="container">
 
-      <span class="badge">
-        Imóveis
-      </span>
+        <span class="eyebrow">
+          Imóveis à venda
+        </span>
 
-      <h1>
-        Apartamentos à venda
-      </h1>
+        <h1>
+          Encontre o imóvel
+          <span>certo para você.</span>
+        </h1>
 
-      <p>
-        Confira algumas das opções
-        disponíveis na Zona Sul de São Paulo.
-      </p>
-
-
-      <div class="property-grid">
-
-        {
-          properties.map((property) => (
-            <a
-              href={`/imoveis/${property.data.slug}/`}
-              class="property-card"
-            >
-
-              {
-                property.data.image && (
-                  <img
-                    src={property.data.image}
-                    alt={property.data.title}
-                    loading="lazy"
-                  />
-                )
-              }
-
-              <div>
-
-                <h2>
-                  {property.data.title}
-                </h2>
-
-                <p>
-                  {property.data.description}
-                </p>
-
-                {
-                  property.data.location && (
-                    <small>
-                      {
-                        property.data.location.neighborhood
-                      },
-                      {" "}
-                      {
-                        property.data.location.city
-                      }
-                    </small>
-                  )
-                }
-
-              </div>
-
-            </a>
-          ))
-        }
+        <p>
+          Encontre apartamentos e imóveis em São Paulo
+          filtrando por região, bairro, dormitórios,
+          preço e condições de financiamento.
+        </p>
 
       </div>
+    </section>
 
-    </div>
 
-  </section>
+    <!-- BUSCA -->
 
+    <section class="search-section">
+      <div class="container">
+
+        <div class="search-box">
+
+          <div class="search-header">
+            <div>
+              <span class="search-eyebrow">
+                Encontre seu imóvel
+              </span>
+
+              <h2>
+                O que você está procurando?
+              </h2>
+            </div>
+
+            <button
+              type="button"
+              id="clear-filters"
+              class="clear-button"
+            >
+              Limpar filtros
+            </button>
+          </div>
+
+
+          <div class="filters">
+
+            <!-- REGIÃO -->
+
+            <div class="filter">
+              <label for="region">
+                Região
+              </label>
+
+              <select id="region">
+                <option value="">
+                  Todas as regiões
+                </option>
+
+                {regions.map((region) => (
+                  <option value={region}>
+                    {formatLocation(region)}
+                  </option>
+                ))}
+              </select>
+            </div>
+
+
+            <!-- BAIRRO -->
+
+            <div class="filter">
+              <label for="neighborhood">
+                Bairros
+              </label>
+
+              <select id="neighborhood">
+                <option value="">
+                  Todos os bairros
+                </option>
+
+                {neighborhoods.map((neighborhood) => (
+                  <option value={neighborhood}>
+                    {formatLocation(neighborhood)}
+                  </option>
+                ))}
+              </select>
+            </div>
+
+
+            <!-- DORMITÓRIOS -->
+
+            <div class="filter">
+              <label for="bedrooms">
+                Dormitórios
+              </label>
+
+              <select id="bedrooms">
+
+                <option value="">
+                  Qualquer quantidade
+                </option>
+
+                {bedrooms.map((number) => (
+                  <option value={number}>
+                    {number}
+                    {' '}
+                    dormitório{number > 1 ? 's' : ''}
+                  </option>
+                ))}
+
+              </select>
+            </div>
+
+
+            <!-- PREÇO -->
+
+            <div class="filter">
+              <label for="price">
+                Preço
+              </label>
+
+              <select id="price">
+                <option value="">
+                  Qualquer preço
+                </option>
+
+                <option value="300000">
+                  Até R$ 300 mil
+                </option>
+
+                <option value="400000">
+                  Até R$ 400 mil
+                </option>
+
+                <option value="500000">
+                  Até R$ 500 mil
+                </option>
+
+                <option value="750000">
+                  Até R$ 750 mil
+                </option>
+
+                <option value="1000000">
+                  Até R$ 1 milhão
+                </option>
+              </select>
+            </div>
+
+
+            <!-- MCMV -->
+
+            <label class="checkbox-filter">
+
+              <input
+                type="checkbox"
+                id="mcmv"
+              />
+
+              <span class="checkbox">
+              </span>
+
+              <span>
+                Minha Casa Minha Vida
+              </span>
+
+            </label>
+
+          </div>
+
+        </div>
+
+      </div>
+    </section>
+
+
+    <!-- RESULTADOS -->
+
+    <section class="results-section">
+      <div class="container">
+
+        <div class="results-header">
+
+          <div>
+            <span id="results-count">
+              {imoveis.length}
+              {imoveis.length === 1 ? ' imóvel' : ' imóveis'}
+            </span>
+
+            <h2>
+              Imóveis disponíveis
+            </h2>
+          </div>
+
+        </div>
+
+
+        <!-- GRID -->
+
+        <div
+          id="properties-grid"
+          class="properties-grid"
+        >
+
+          {imoveis.map((imovel) => {
+
+            const data = imovel.data;
+
+            return (
+              <article
+                class="property-card"
+
+                data-region={
+                  data.location.region
+                }
+
+                data-neighborhood={
+                  data.location.neighborhood
+                }
+
+                data-bedrooms={
+                  data.property.bedrooms
+                }
+
+                data-price={
+                  data.price?.min ?? ''
+                }
+
+                data-mcmv={
+                  data.financing?.mcmv
+                    ? 'true'
+                    : 'false'
+                }
+              >
+
+                <a
+                  href={`/imoveis/${data.slug}`}
+                  class="property-link"
+                >
+
+                  <!-- IMAGEM -->
+
+                  <div class="property-image">
+
+                    {data.image ? (
+                      <img
+                        src={data.image}
+                        alt={data.title}
+                        loading="lazy"
+                      />
+                    ) : (
+                      <div class="image-placeholder">
+                        Imóvel
+                      </div>
+                    )}
+
+                    {data.financing?.mcmv && (
+                      <span class="mcmv-badge">
+                        MCMV
+                      </span>
+                    )}
+
+                  </div>
+
+
+                  <!-- CONTEÚDO -->
+
+                  <div class="property-body">
+
+                    <span class="property-location">
+                      {data.location.neighborhood}
+                      {' · '}
+                      {data.location.region}
+                    </span>
+
+                    <h3>
+                      {data.title}
+                    </h3>
+
+                    <p class="property-description">
+                      {data.description}
+                    </p>
+
+
+                    <!-- CARACTERÍSTICAS -->
+
+                    <div class="property-features">
+
+                      <span>
+                        <strong>
+                          {data.property.bedrooms}
+                        </strong>
+
+                        {data.property.bedrooms === 1
+                          ? ' dormitório'
+                          : ' dormitórios'}
+                      </span>
+
+
+                      {data.property.parking !== undefined && (
+                        <span>
+                          <strong>
+                            {data.property.parking}
+                          </strong>
+
+                          {data.property.parking === 1
+                            ? ' vaga'
+                            : ' vagas'}
+                        </span>
+                      )}
+
+
+                      {data.property.balcony && (
+                        <span>
+                          Varanda
+                        </span>
+                      )}
+
+                    </div>
+
+
+                    <!-- PREÇO -->
+
+                    {data.price?.min && (
+                      <div class="property-price">
+
+                        <span>
+                          A partir de
+                        </span>
+
+                        <strong>
+                          {new Intl.NumberFormat(
+                            'pt-BR',
+                            {
+                              style: 'currency',
+                              currency: 'BRL',
+                              maximumFractionDigits: 0,
+                            }
+                          ).format(data.price.min)}
+                        </strong>
+
+                      </div>
+                    )}
+
+
+                    <span class="property-cta">
+                      Ver imóvel →
+                    </span>
+
+                  </div>
+
+                </a>
+
+              </article>
+            );
+          })}
+
+        </div>
+
+
+        <!-- ESTADO VAZIO -->
+
+        <div
+          id="empty-state"
+          class="empty-state"
+          hidden
+        >
+
+          <div class="empty-icon">
+            ⌕
+          </div>
+
+          <h2>
+            Nenhum imóvel encontrado
+          </h2>
+
+          <p>
+            Tente alterar ou remover alguns filtros
+            para encontrar mais imóveis.
+          </p>
+
+          <button
+            type="button"
+            id="empty-clear"
+            class="primary-button"
+          >
+            Limpar filtros
+          </button>
+
+        </div>
+     
+      </div>  
+    </section>
+    <span class="span-lead">
+    <LeadForm />  
+    </span> 
+    
+    
+
+  </main>
 </BaseLayout>
+
+
+<style>
+
+/* ========================================
+   BASE
+======================================== */
+
+.properties-page {
+  min-height: 100vh;
+  background: #fafaf8;
+}
+
+.container {
+  width: min(
+    1120px,
+    calc(100% - 40px)
+  );
+
+  margin: 0 auto;
+}
+
+
+/* ========================================
+   HERO
+======================================== */
+
+.properties-hero {
+  padding: 100px 0 75px;
+  border-bottom: 1px solid #e8e8e4;
+}
+
+.eyebrow {
+  display: inline-block;
+
+  margin-bottom: 18px;
+
+  font-size: 12px;
+  font-weight: 700;
+
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+
+  color: #1f5c45;
+}
+
+.properties-hero h1 {
+  max-width: 750px;
+
+  margin: 0;
+
+  font-size: clamp(
+    44px,
+    6vw,
+    72px
+  );
+
+  line-height: 1;
+  letter-spacing: -0.045em;
+
+  color: #181818;
+}
+
+.properties-hero h1 span {
+  display: block;
+  color: #1f5c45;
+}
+
+.properties-hero p {
+  max-width: 650px;
+
+  margin: 28px 0 0;
+
+  font-size: 18px;
+  line-height: 1.7;
+
+  color: #666;
+}
+
+
+/* ========================================
+   SEARCH
+======================================== */
+
+.search-section {
+  padding: 50px 0 0;
+}
+
+.search-box {
+  padding: 32px;
+
+  background: white;
+
+  border: 1px solid #e8e8e4;
+  border-radius: 20px;
+
+  box-shadow:
+    0 10px 40px
+    rgba(0, 0, 0, 0.04);
+}
+
+.search-header {
+  display: flex;
+
+  align-items: flex-start;
+  justify-content: space-between;
+
+  gap: 30px;
+
+  margin-bottom: 30px;
+}
+
+.search-eyebrow {
+  display: block;
+
+  margin-bottom: 7px;
+
+  font-size: 12px;
+  font-weight: 700;
+
+  letter-spacing: 0.07em;
+  text-transform: uppercase;
+
+  color: #1f5c45;
+}
+
+.search-header h2 {
+  margin: 0;
+
+  font-size: 26px;
+  letter-spacing: -0.025em;
+
+  color: #181818;
+}
+
+.clear-button {
+  padding: 8px 0;
+
+  border: 0;
+  background: transparent;
+
+  font-size: 13px;
+  font-weight: 600;
+
+  color: #777;
+
+  cursor: pointer;
+}
+
+.clear-button:hover {
+  color: #1f5c45;
+}
+
+
+/* ========================================
+   FILTERS
+======================================== */
+
+.filters {
+  display: grid;
+
+  grid-template-columns:
+    repeat(4, 1fr);
+
+  gap: 16px;
+
+  align-items: end;
+}
+
+.filter {
+  display: flex;
+  flex-direction: column;
+
+  gap: 8px;
+}
+
+.filter label {
+  font-size: 12px;
+  font-weight: 700;
+
+  color: #555;
+}
+
+.filter select {
+  width: 100%;
+
+  min-height: 48px;
+
+  padding: 0 14px;
+
+  border: 1px solid #deded9;
+  border-radius: 10px;
+
+  background: white;
+
+  font: inherit;
+  font-size: 14px;
+
+  color: #181818;
+
+  cursor: pointer;
+}
+
+.filter select:focus {
+  outline: 2px solid
+    rgba(31, 92, 69, 0.15);
+
+  border-color: #1f5c45;
+}
+
+
+/* ========================================
+   CHECKBOX
+======================================== */
+
+.checkbox-filter {
+  display: flex;
+
+  align-items: center;
+
+  gap: 10px;
+
+  min-height: 48px;
+
+  padding: 0 14px;
+
+  border: 1px solid #deded9;
+  border-radius: 10px;
+
+  font-size: 13px;
+  font-weight: 600;
+
+  color: #444;
+
+  cursor: pointer;
+}
+
+.checkbox-filter input {
+  position: absolute;
+  opacity: 0;
+}
+
+.checkbox {
+  width: 18px;
+  height: 18px;
+
+  flex-shrink: 0;
+
+  border: 1px solid #bbb;
+  border-radius: 5px;
+
+  transition:
+    background 0.15s ease,
+    border-color 0.15s ease;
+}
+
+.checkbox-filter input:checked
+  + .checkbox {
+  background: #1f5c45;
+  border-color: #1f5c45;
+}
+
+.checkbox-filter input:checked
+  + .checkbox::after {
+  content: "✓";
+
+  display: flex;
+
+  align-items: center;
+  justify-content: center;
+
+  height: 100%;
+
+  font-size: 12px;
+  font-weight: 700;
+
+  color: white;
+}
+
+
+/* ========================================
+   RESULTS
+======================================== */
+
+.results-section {
+  padding: 65px 0 100px;
+}
+
+.results-header {
+  margin-bottom: 28px;
+}
+
+.results-header span {
+  font-size: 13px;
+  font-weight: 600;
+
+  color: #1f5c45;
+}
+
+.results-header h2 {
+  margin: 6px 0 0;
+
+  font-size: 32px;
+  letter-spacing: -0.03em;
+
+  color: #181818;
+}
+
+
+/* ========================================
+   GRID
+======================================== */
+
+.properties-grid {
+  display: grid;
+
+  grid-template-columns:
+    repeat(3, 1fr);
+
+  gap: 26px;
+}
+
+
+/* ========================================
+   CARD
+======================================== */
+
+.property-card {
+  overflow: hidden;
+
+  background: white;
+
+  border: 1px solid #e8e8e4;
+  border-radius: 18px;
+
+  transition:
+    transform 0.2s ease,
+    box-shadow 0.2s ease;
+}
+
+.property-card:hover {
+  transform: translateY(-5px);
+
+  box-shadow:
+    0 15px 40px
+    rgba(0, 0, 0, 0.08);
+}
+
+.property-link {
+  display: flex;
+  flex-direction: column;
+
+  height: 100%;
+
+  text-decoration: none;
+
+  color: inherit;
+}
+
+
+/* ========================================
+   IMAGE
+======================================== */
+
+.property-image {
+  position: relative;
+
+  aspect-ratio: 16 / 10;
+
+  overflow: hidden;
+
+  background: #f1f1ed;
+}
+
+.property-image img {
+  width: 100%;
+  height: 100%;
+
+  object-fit: cover;
+
+  transition:
+    transform 0.4s ease;
+}
+
+.property-card:hover
+  .property-image img {
+  transform: scale(1.04);
+}
+
+.image-placeholder {
+  display: flex;
+
+  align-items: center;
+  justify-content: center;
+
+  width: 100%;
+  height: 100%;
+
+  color: #999;
+}
+
+
+/* ========================================
+   MCMV
+======================================== */
+
+.mcmv-badge {
+  position: absolute;
+
+  top: 14px;
+  left: 14px;
+
+  padding: 7px 10px;
+
+  border-radius: 7px;
+
+  background: #1f5c45;
+
+  font-size: 11px;
+  font-weight: 700;
+
+  color: white;
+}
+
+
+/* ========================================
+   BODY
+======================================== */
+
+.property-body {
+  display: flex;
+  flex-direction: column;
+
+  flex: 1;
+
+  padding: 24px;
+}
+
+.property-location {
+  margin-bottom: 8px;
+
+  font-size: 12px;
+  font-weight: 700;
+
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+
+  color: #1f5c45;
+}
+
+.property-body h3 {
+  margin: 0 0 10px;
+
+  font-size: 22px;
+  line-height: 1.2;
+
+  letter-spacing: -0.025em;
+
+  color: #181818;
+}
+
+.property-description {
+  margin: 0;
+
+  font-size: 14px;
+  line-height: 1.55;
+
+  color: #666;
+}
+
+
+/* ========================================
+   FEATURES
+======================================== */
+
+.property-features {
+  display: flex;
+
+  flex-wrap: wrap;
+
+  gap: 8px 15px;
+
+  margin-top: 20px;
+  padding-top: 18px;
+
+  border-top: 1px solid #eeeeea;
+
+  font-size: 13px;
+
+  color: #666;
+}
+
+.property-features span {
+  display: inline-flex;
+  align-items: center;
+}
+
+.property-features strong {
+  margin-right: 3px;
+
+  color: #222;
+}
+
+
+/* ========================================
+   PRICE
+======================================== */
+
+.property-price {
+  display: flex;
+  flex-direction: column;
+
+  margin-top: 22px;
+}
+
+.property-price span {
+  font-size: 11px;
+  color: #888;
+}
+
+.property-price strong {
+  margin-top: 2px;
+
+  font-size: 21px;
+  letter-spacing: -0.02em;
+
+  color: #181818;
+}
+
+
+/* ========================================
+   CTA
+======================================== */
+
+.property-cta {
+  margin-top: 20px;
+
+  font-size: 14px;
+  font-weight: 700;
+
+  color: #1f5c45;
+}
+
+
+/* ========================================
+   EMPTY
+======================================== */
+
+.empty-state {
+  padding: 80px 20px;
+
+  text-align: center;
+
+  border: 1px dashed #d8d8d3;
+  border-radius: 18px;
+}
+
+.empty-icon {
+  margin-bottom: 15px;
+
+  font-size: 35px;
+
+  color: #1f5c45;
+}
+
+.empty-state h2 {
+  margin: 0 0 10px;
+
+  font-size: 24px;
+
+  color: #181818;
+}
+
+.empty-state p {
+  max-width: 450px;
+
+  margin: 0 auto 25px;
+
+  line-height: 1.6;
+
+  color: #666;
+}
+
+.primary-button {
+  padding: 12px 20px;
+
+  border: 0;
+  border-radius: 9px;
+
+  background: #1f5c45;
+
+  font-weight: 700;
+
+  color: white;
+
+  cursor: pointer;
+}
+
+/*
+================================
+SPAN
+=============================== */
+.span-lead {
+  display: flex;
+  justify-content: center;
+}
+
+
+/* ========================================
+   RESPONSIVE
+======================================== */
+
+@media (max-width: 900px) {
+
+  .filters {
+    grid-template-columns:
+      repeat(2, 1fr);
+  }
+
+  .properties-grid {
+    grid-template-columns:
+      repeat(2, 1fr);
+  }
+
+}
+
+
+@media (max-width: 600px) {
+
+  .container {
+    width:
+      calc(100% - 28px);
+  }
+
+  .properties-hero {
+    padding:
+      70px 0 50px;
+  }
+
+  .properties-hero h1 {
+    font-size: 44px;
+  }
+
+  .search-box {
+    padding: 22px;
+  }
+
+  .search-header {
+    flex-direction: column;
+  }
+
+  .filters {
+    grid-template-columns: 1fr;
+  }
+
+  .properties-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .results-section {
+    padding-top: 45px;
+  }
+}
+
+</style>
+
+
+<script>
+import { formatLocation } from "../../data/site/locations";
+
+  const regionFilter =
+    document.querySelector(
+      '#region'
+    ) as HTMLSelectElement;
+
+  const neighborhoodFilter =
+    document.querySelector(
+      '#neighborhood'
+    ) as HTMLSelectElement;
+
+  const bedroomFilter =
+    document.querySelector(
+      '#bedrooms'
+    ) as HTMLSelectElement;
+
+  const priceFilter =
+    document.querySelector(
+      '#price'
+    ) as HTMLSelectElement;
+
+  const mcmvFilter =
+    document.querySelector(
+      '#mcmv'
+    ) as HTMLInputElement;
+
+  const clearButton =
+    document.querySelector(
+      '#clear-filters'
+    ) as HTMLButtonElement;
+
+  const emptyClearButton =
+    document.querySelector(
+      '#empty-clear'
+    ) as HTMLButtonElement;
+
+  const cards =
+    Array.from(
+      document.querySelectorAll(
+        '.property-card'
+      )
+    ) as HTMLElement[];
+
+  const resultsCount =
+    document.querySelector(
+      '#results-count'
+    ) as HTMLElement;
+
+  const emptyState =
+    document.querySelector(
+      '#empty-state'
+    ) as HTMLElement;
+
+
+  /*
+   * Guarda os bairros e regiões
+   * originais para podermos reconstruir
+   * o select de bairros.
+   */
+
+  const neighborhoods = cards.map(
+    (card) => ({
+      region:
+        card.dataset.region ?? '',
+
+      neighborhood:
+        card.dataset.neighborhood ?? '',
+    })
+  );
+
+
+  /*
+   * Atualiza os bairros disponíveis
+   * conforme a região escolhida.
+   */
+
+  function updateNeighborhoods() {
+
+    const selectedRegion =
+      regionFilter.value;
+
+    const available =
+      neighborhoods
+        .filter((item) => {
+          return (
+            !selectedRegion ||
+            item.region === selectedRegion
+          );
+        })
+        .map(
+          (item) => item.neighborhood
+        );
+
+    const unique =
+      [...new Set(available)].sort();
+
+
+    const current =
+      neighborhoodFilter.value;
+
+
+    neighborhoodFilter.innerHTML = `
+      <option value="">
+        Todos os bairros
+      </option>
+    `;
+
+
+    unique.forEach(
+      (neighborhood) => {
+
+        const option =
+          document.createElement(
+            'option'
+          );
+
+        option.value =
+          neighborhood;
+
+        option.textContent =
+          formatLocation(neighborhood);
+
+        neighborhoodFilter.appendChild(
+          option
+        );
+      }
+    );
+
+
+    /*
+     * Mantém o bairro selecionado
+     * caso ele ainda seja válido.
+     */
+
+    if (
+      unique.includes(current)
+    ) {
+      neighborhoodFilter.value =
+        current;
+    }
+  }
+
+
+  /*
+   * Atualiza a URL.
+   */
+
+  function updateURL() {
+
+    const params =
+      new URLSearchParams();
+
+
+    if (regionFilter.value) {
+      params.set(
+        'regiao',
+        regionFilter.value
+      );
+    }
+
+
+    if (neighborhoodFilter.value) {
+      params.set(
+        'bairro',
+        neighborhoodFilter.value
+      );
+    }
+
+
+    if (bedroomFilter.value) {
+      params.set(
+        'dormitorios',
+        bedroomFilter.value
+      );
+    }
+
+
+    if (priceFilter.value) {
+      params.set(
+        'preco',
+        priceFilter.value
+      );
+    }
+
+
+    if (mcmvFilter.checked) {
+      params.set(
+        'mcmv',
+        'true'
+      );
+    }
+
+
+    const query =
+      params.toString();
+
+
+    const url =
+      query
+        ? `${window.location.pathname}?${query}`
+        : window.location.pathname;
+
+
+    window.history.replaceState(
+      {},
+      '',
+      url
+    );
+  }
+
+
+  /*
+   * Aplica os filtros.
+   */
+
+  function filterProperties() {
+
+    const region =
+      regionFilter.value;
+
+    const neighborhood =
+      neighborhoodFilter.value;
+
+    const bedrooms =
+      bedroomFilter.value;
+
+    const maxPrice =
+      priceFilter.value
+        ? Number(priceFilter.value)
+        : null;
+
+    const mcmv =
+      mcmvFilter.checked;
+
+
+    let visibleCount = 0;
+
+
+    cards.forEach((card) => {
+
+      const matchesRegion =
+        !region ||
+        card.dataset.region === region;
+
+
+      const matchesNeighborhood =
+        !neighborhood ||
+        card.dataset.neighborhood ===
+          neighborhood;
+
+
+      const matchesBedrooms =
+        !bedrooms ||
+        card.dataset.bedrooms ===
+          bedrooms;
+
+
+      const cardPrice =
+        card.dataset.price
+          ? Number(card.dataset.price)
+          : null;
+
+
+      /*
+       * Se o imóvel não tiver preço,
+       * não o escondemos quando o filtro
+       * de preço estiver ativo.
+       */
+
+       const matchesPrice =
+  !maxPrice ||
+  (cardPrice !== null && cardPrice <= maxPrice);
+
+      const matchesMcmv =
+        !mcmv ||
+        card.dataset.mcmv === 'true';
+
+
+      const visible =
+        matchesRegion &&
+        matchesNeighborhood &&
+        matchesBedrooms &&
+        matchesPrice &&
+        matchesMcmv;
+
+if (visible) {
+  card.style.display = '';
+} else {
+  card.style.display = 'none';
+}
+
+
+      if (visible) {
+        visibleCount++;
+      }
+
+    });
+
+
+    resultsCount.textContent =
+      `${visibleCount} ${
+        visibleCount === 1
+          ? 'imóvel'
+          : 'imóveis'
+      }`;
+
+
+    emptyState.hidden =
+      visibleCount !== 0;
+
+
+    updateURL();
+  }
+
+
+  /*
+   * Limpa todos os filtros.
+   */
+
+  function clearFilters() {
+
+    regionFilter.value = '';
+
+    neighborhoodFilter.value = '';
+
+    bedroomFilter.value = '';
+
+    priceFilter.value = '';
+
+    mcmvFilter.checked = false;
+
+    updateNeighborhoods();
+
+    filterProperties();
+  }
+
+
+  /*
+   * Eventos.
+   */
+
+  regionFilter.addEventListener(
+    'change',
+    () => {
+
+      updateNeighborhoods();
+
+      filterProperties();
+    }
+  );
+
+
+  neighborhoodFilter.addEventListener(
+    'change',
+    filterProperties
+  );
+
+
+  bedroomFilter.addEventListener(
+    'change',
+    filterProperties
+  );
+
+
+  priceFilter.addEventListener(
+    'change',
+    filterProperties
+  );
+
+
+  mcmvFilter.addEventListener(
+    'change',
+    filterProperties
+  );
+
+
+  clearButton.addEventListener(
+    'click',
+    clearFilters
+  );
+
+
+  emptyClearButton.addEventListener(
+    'click',
+    clearFilters
+  );
+
+
+  /*
+   * Lê filtros existentes na URL.
+   *
+   * Exemplo:
+   *
+   * /imoveis?regiao=Zona%20Sul&dormitorios=2
+   */
+
+  function loadFiltersFromURL() {
+
+    const params =
+      new URLSearchParams(
+        window.location.search
+      );
+
+
+    const region =
+      params.get('regiao');
+
+    const neighborhood =
+      params.get('bairro');
+
+    const bedrooms =
+      params.get('dormitorios');
+
+    const price =
+      params.get('preco');
+
+    const mcmv =
+      params.get('mcmv');
+
+
+    if (region) {
+      regionFilter.value =
+        region;
+    }
+
+
+    updateNeighborhoods();
+
+
+    if (neighborhood) {
+      neighborhoodFilter.value =
+        neighborhood;
+    }
+
+
+    if (bedrooms) {
+      bedroomFilter.value =
+        bedrooms;
+    }
+
+
+    if (price) {
+      priceFilter.value =
+        price;
+    }
+
+
+    if (mcmv === 'true') {
+      mcmvFilter.checked =
+        true;
+    }
+
+
+    filterProperties();
+  }
+
+
+  loadFiltersFromURL();
+</script>

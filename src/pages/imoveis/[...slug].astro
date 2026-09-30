@@ -4,6 +4,7 @@ import PropertyLayout from "../../layouts/PropertyLayout.astro";
 import RelatedContent from "../../components/RelatedContent.astro";
 import LeadCTA from "../../components/LeadCTA.astro";
 import { WhatsappUrl } from "../../data/site/contato";
+import LeadForm from "../../components/LeadForm.astro";
 
 export async function getStaticPaths() {
   const imoveis = await getCollection("imoveis");
@@ -47,9 +48,9 @@ const { title, description, image, location, property, related } = imovel.data;
     <RelatedContent items={related} />
 
     <LeadCTA
-          title="Está pensando em comprar um imóvel?"
-          description="Posso te ajudar a entender as opções e fazer uma simulação."
-          href={WhatsappUrl}
-        />
+      title="Está pensando em comprar um imóvel?"
+      description="Posso te ajudar a entender as opções e fazer uma simulação."
+      href={WhatsappUrl}
+    />
   </div>
 </PropertyLayout>

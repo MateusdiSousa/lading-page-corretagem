@@ -20,7 +20,7 @@ const {
   readTime = "5 min",
 } = Astro.props;
 
-const phone = "5511999999999";
+const phone = "5511947449899";
 
 const whatsappUrl =
   `https://wa.me/${phone}?text=${encodeURIComponent(
@@ -103,12 +103,6 @@ const whatsappUrl =
       <main class="article-content">
 
         <slot />
-
-        <LeadCTA
-          title="Está pensando em comprar um imóvel?"
-          description="Posso te ajudar a entender as opções e fazer uma simulação."
-          href={whatsappUrl}
-        />
 
       </main>
 

@@ -1,6 +1,7 @@
 ---
 import BaseLayout from "./BaseLayout.astro";
 import LeadCTA from "../components/LeadCTA.astro";
+import LeadForm from "../components/LeadForm.astro";
 
 interface Props {
   title: string;
@@ -28,25 +29,17 @@ const {
   whatsappMessage,
 } = Astro.props;
 
-const phone = "5511999999999";
+const phone = "5511947449899";
 
 const message =
-  whatsappMessage ??
-  `Olá, Penholato! Quero saber mais sobre ${title}.`;
+  whatsappMessage ?? `Olá, Penholato! Quero saber mais sobre ${title}.`;
 
-const whatsappUrl =
-  `https://wa.me/${phone}?text=${encodeURIComponent(message)}`;
+const whatsappUrl = `https://wa.me/${phone}?text=${encodeURIComponent(message)}`;
 ---
 
-<BaseLayout
-  title={title}
-  description={description}
-  image={image}
->
+<BaseLayout title={title} description={description} image={image}>
   <article class="property-page">
-
     <div class="container">
-
       <!-- Breadcrumb -->
 
       <div class="breadcrumbs">
@@ -57,11 +50,9 @@ const whatsappUrl =
         <span>{title}</span>
       </div>
 
-
       <!-- Header -->
 
       <header class="property-header">
-
         {
           neighborhood && (
             <span class="eyebrow">
@@ -75,44 +66,27 @@ const whatsappUrl =
         <p class="property-description">
           {description}
         </p>
-
       </header>
-
 
       <!-- Hero -->
 
       <section class="property-hero">
-
         <div class="property-image">
-
           {
             image ? (
-              <img
-                src={image}
-                alt={title}
-              />
+              <img src={image} alt={title} />
             ) : (
-              <div class="image-placeholder">
-                Imóvel
-              </div>
+              <div class="image-placeholder">Imóvel</div>
             )
           }
-
         </div>
 
-
         <aside class="property-summary">
+          <span class="summary-label"> Sobre o imóvel </span>
 
-          <span class="summary-label">
-            Sobre o imóvel
-          </span>
-
-          <h2>
-            Encontre seu próximo lar
-          </h2>
+          <h2>Encontre seu próximo lar</h2>
 
           <div class="property-features">
-
             {
               bedrooms !== undefined && (
                 <div class="feature">
@@ -148,9 +122,7 @@ const whatsappUrl =
                 </div>
               )
             }
-
           </div>
-
 
           <a
             href={whatsappUrl}
@@ -160,36 +132,19 @@ const whatsappUrl =
           >
             Quero saber mais
           </a>
-
-          <p class="summary-note">
-            Atendimento personalizado pelo WhatsApp.
-          </p>
-
+          <p class="summary-note">Atendimento personalizado pelo WhatsApp.</p>
         </aside>
-
       </section>
-
 
       <!-- Conteúdo do Markdown -->
 
       <div class="property-content">
-
         <div class="property-main">
           <slot />
         </div>
+        <LeadForm />
 
       </div>
-
-
-      <!-- CTA -->
-
-      <LeadCTA
-        title="Gostou desse imóvel?"
-        description="Me chame no WhatsApp para consultar valores, disponibilidade e condições."
-        href={whatsappUrl}
-      />
-
     </div>
-
   </article>
 </BaseLayout>

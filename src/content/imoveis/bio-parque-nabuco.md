@@ -1,21 +1,16 @@
 ---
 title: "Bio Parque Nabuco"
-
 description: "Apartamento de 2 dormitórios com varanda próximo ao Parque Nabuco, na Zona Sul de São Paulo."
-
 slug: "bio-parque-nabuco"
-
 image: "/images/imoveis/bio-parque-nabuco/decorado.jpg"
-
 type: "imovel"
-
 seo:   
     title: "Bio Parque Nabuco | Apartamentos 2 dormitórios"
     description: "Conheça o Bio Parque Nabuco, empreendimento de 2 dormitórios com varanda na Zona Sul de São Paulo."
-
 location:
-    neighborhood: "Vila Mascote"
-    city: "São Paulo"
+    neighborhood: "vila-mascote"
+    city: "sao-paulo"
+    region: "zona-sul"
 
 property:
     bedrooms: 2
@@ -23,7 +18,21 @@ property:
     parking: 1
     balcony: true
 
+price:
+  min: 279900
+  max: 380000
+
+financing:
+  mcmv: true
+  fgts: true
+
 featured: true
+
+related:
+  - type: bairro
+    slug: apartamentos-vila-mascote
+  - type: artigo
+    slug: o-que-e-incc
 ---
 
 # Bio Parque Nabuco

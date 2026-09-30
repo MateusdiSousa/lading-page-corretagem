@@ -1,16 +1,13 @@
 ---
-import {
-  getCollection,
-} from "astro:content";
+import { getCollection } from "astro:content";
 
 import BaseLayout from "../layouts/BaseLayout.astro";
+import LeadForm from "../components/LeadForm.astro";
 
 const pages = await getCollection("imoveis");
 
 const featured = pages.filter(
-  (page) =>
-    page.data.featured &&
-    page.data.type === "imovel"
+  (page) => page.data.featured && page.data.type === "imovel",
 );
 ---
 
@@ -18,136 +15,79 @@ const featured = pages.filter(
   title="Penholato | Corretor de imóveis em São Paulo"
   description="Encontre apartamentos na Zona Sul de São Paulo e receba atendimento personalizado para comprar seu imóvel."
 >
-
-
   <section class="hero">
     <div class="container">
+      <span class="badge"> Corretor de imóveis </span>
 
-      <span class="badge">
-        Corretor de imóveis
-      </span>
-
-      <h1>
-        Encontre seu próximo imóvel
-        na Zona Sul de São Paulo
-      </h1>
+      <h1>Encontre seu próximo imóvel na Zona Sul de São Paulo</h1>
 
       <p>
-        Apartamentos, lançamentos e opções
-        de financiamento para diferentes perfis.
+        Apartamentos, lançamentos e opções de financiamento para diferentes
+        perfis.
       </p>
 
       <a
-        href="https://wa.me/5511999999999"
+        href="https://wa.me/5511947449899"
         target="_blank"
         rel="noopener noreferrer"
         class="cta-button"
       >
         Falar comigo
       </a>
-
     </div>
   </section>
-
 
   {
     featured.length > 0 && (
       <section class="section">
-
         <div class="container">
-
-          <h2>
-            Imóveis em destaque
-          </h2>
+          <h2>Imóveis em destaque</h2>
 
           <div class="property-grid">
+            {featured.map((page) => (
+              <a href={`/${page.data.slug}/`} class="property-card">
+                {page.data.image && (
+                  <img
+                    src={page.data.image}
+                    alt={page.data.title}
+                    loading="lazy"
+                  />
+                )}
 
-            {
-              featured.map((page) => (
-                <a
-                  href={`/${page.data.slug}/`}
-                  class="property-card"
-                >
+                <div>
+                  <h3>{page.data.title}</h3>
 
-                  {
-                    page.data.image && (
-                      <img
-                        src={page.data.image}
-                        alt={page.data.title}
-                        loading="lazy"
-                      />
-                    )
-                  }
-
-                  <div>
-
-                    <h3>
-                      {page.data.title}
-                    </h3>
-
-                    <p>
-                      {page.data.description}
-                    </p>
-
-                  </div>
-
-                </a>
-              ))
-            }
-
+                  <p>{page.data.description}</p>
+                </div>
+              </a>
+            ))}
           </div>
-
         </div>
-
       </section>
     )
   }
 
-
-  <section
-    class="section"
-    id="sobre"
-  >
+  <section class="section" id="sobre">
     <div class="container">
-
-      <h2>
-        Atendimento personalizado
-      </h2>
-
-      <p>
-        Meu objetivo é ajudar você a encontrar
-        um imóvel compatível com seu momento,
-        orçamento e objetivos.
-      </p>
-
+      <h2>Atendimento Personalizado</h2>
+      <LeadForm />
     </div>
   </section>
 
-
-  <section
-    class="section"
-    id="contato"
-  >
+  <section class="section" id="contato">
     <div class="container">
+      <h2>Está procurando um imóvel?</h2>
 
-      <h2>
-        Está procurando um imóvel?
-      </h2>
-
-      <p>
-        Entre em contato e me conte o que você procura.
-      </p>
+      <p>Entre em contato e me conte o que você procura.</p>
 
       <a
-        href="https://wa.me/5511999999999"
+        href="https://wa.me/5511947449899"
         target="_blank"
         rel="noopener noreferrer"
         class="cta-button"
       >
         Falar pelo WhatsApp
       </a>
-
     </div>
   </section>
-
 </BaseLayout>
