@@ -457,12 +457,6 @@ nav a {
   text-decoration: none;
 }
 
-.property-hero {
-  display: grid;
-  grid-template-columns: minmax(0, 1.6fr) minmax(320px, 0.8fr);
-  gap: 24px;
-}
-
 .property-image {
   overflow: hidden;
   border-radius: 22px;
@@ -470,10 +464,10 @@ nav a {
   min-height: 480px;
 }
 
-.property-image img {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
+.property-hero {
+  display: grid;
+  grid-template-columns: minmax(0, 1.6fr) minmax(320px, 0.8fr);
+  gap: 24px;
 }
 
 .image-placeholder {
@@ -807,7 +801,7 @@ nav a {
 ===================================================== */
 
 @media (max-width: 800px) {
-
+  
   .property-hero {
     grid-template-columns: 1fr;
   }

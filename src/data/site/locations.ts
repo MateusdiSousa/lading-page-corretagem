@@ -10,6 +10,7 @@ export const locations: Record<string, string> = {
     'zona-leste': 'Zona Leste',
     'zona-oeste': 'Zona Oeste',
     'centro': 'Centro',
+    'abc': 'ABC',
 
     // Bairros
     'vila-mascote': 'Vila Mascote',
@@ -17,6 +18,7 @@ export const locations: Record<string, string> = {
     'jardim-botanico': 'Jardim Botânico',
     'jabaquara': 'Jabaquara',
     'cursino': 'Cursino',
+    'sacoma': 'Sacomã'
 };
 
 

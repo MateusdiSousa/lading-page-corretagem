@@ -27,7 +27,7 @@ const { imovel } = Astro.props;
 
 const { Content } = await render(imovel);
 
-const { title, description, image, location, property, related } = imovel.data;
+const { title, description, image, location, property, related, gallery } = imovel.data;
 ---
 
 <PropertyLayout
@@ -40,17 +40,17 @@ const { title, description, image, location, property, related } = imovel.data;
   bathrooms={property.bathrooms}
   parking={property.parking}
   balcony={property.balcony}
+  gallery={gallery}
 >
   <Content />
   <div class="article-content">
     <slot />
-
-    <RelatedContent items={related} />
 
     <LeadCTA
       title="Está pensando em comprar um imóvel?"
       description="Posso te ajudar a entender as opções e fazer uma simulação."
       href={WhatsappUrl}
     />
+    <RelatedContent items={related} />
   </div>
 </PropertyLayout>
