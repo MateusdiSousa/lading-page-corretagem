@@ -1,5 +1,6 @@
 ---
 import { getCollection } from 'astro:content';
+import { getImageUrl } from '../data/site/image';
 
 interface RelatedItem {
   type: 'imovel' | 'bairro' | 'artigo';
@@ -73,7 +74,7 @@ const relatedContent = items
           {content?.data.image && (
             <div class="related-image">
               <img
-                src={content.data.image}
+                src={getImageUrl(content.data.image)}
                 alt={content.data.title}
                 loading="lazy"
               />

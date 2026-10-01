@@ -3,6 +3,7 @@ import { getCollection } from 'astro:content';
 import BaseLayout from '../../layouts/BaseLayout.astro';
 import { formatLocation } from '../../data/site/locations'
 import LeadForm from '../../components/LeadForm.astro';
+import {getImageUrl} from '../../data/site/image';
 
 const imoveis = await getCollection('imoveis');
 
@@ -289,7 +290,7 @@ const bedrooms = [
 
                     {data.image ? (
                       <img
-                        src={data.image}
+                        src={getImageUrl(data.image)}
                         alt={data.title}
                         loading="lazy"
                       />

@@ -1,14 +1,17 @@
 {
-	"$schema": "./node_modules/wrangler/config-schema.json",
-	"compatibility_date": "2026-09-26",
-	"compatibility_flags": ["global_fetch_strictly_public"],
-	"name": "lading-page-corretagem",
-	"main": "@astrojs/cloudflare/entrypoints/server",
-	"assets": {
-		"directory": "./dist",
-		"binding": "ASSETS"
-	},
-	"observability": {
-		"enabled": false
-	}
+  "$schema": "./node_modules/wrangler/config-schema.json",
+  "compatibility_date": "2026-09-26",
+  "name": "lading-page-corretagem",
+  "assets": {
+    "directory": "./dist"
+  },
+  "observability": {
+    "enabled": false
+  },
+  "previews": {
+    "vars": {
+      "PUBLIC_SUPABASE_URL": "https://dakskmbylfyymkubkegi.supabase.co/",
+      "PUBLIC_SUPABASE_PUBLISHABLE_KEY": "sb_publishable_V-iPizeL-5jxxymcdgBP8w_rLOXfJeT"
+    }
+  }
 }

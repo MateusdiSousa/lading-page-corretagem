@@ -2,7 +2,21 @@
 title: "Bio Parque Nabuco"
 description: "Apartamento de 2 dormitórios com varanda próximo ao Parque Nabuco, na Zona Sul de São Paulo."
 slug: "bio-parque-nabuco"
-image: "/images/imoveis/bio-parque-nabuco/decorado.jpg"
+image: "/imoveis/bio-parque-nabuco/sala-de-estar-jantar.jpg"
+gallery:
+    - "/imoveis/bio-parque-nabuco/sala-de-estar-jantar.jpg"
+    - "/imoveis/bio-parque-nabuco/cozinha.jpg"
+    - "/imoveis/bio-parque-nabuco/quarto-maior.jpg"
+    - "/imoveis/bio-parque-nabuco/quarto-menor.jpg"
+    - "/imoveis/bio-parque-nabuco/sacada.jpg"
+    - "/imoveis/bio-parque-nabuco/banheiro.jpg"
+    - "/imoveis/bio-parque-nabuco/maquete-2.jpg"
+    - "/imoveis/bio-parque-nabuco/rooftop-bar.jpg"
+    - "/imoveis/bio-parque-nabuco/piscina.jpg"
+    - "/imoveis/bio-parque-nabuco/academia.jpg"
+    - "/imoveis/bio-parque-nabuco/yoga.jpg"
+    - "/imoveis/bio-parque-nabuco/coworking.jpg"
+
 type: "imovel"
 seo:   
     title: "Bio Parque Nabuco | Apartamentos 2 dormitórios"

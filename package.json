@@ -14,8 +14,8 @@
     "deploy": "npm run build && wrangler deploy"
   },
   "dependencies": {
-    "@astrojs/cloudflare": "^14.3.3",
     "@astrojs/sitemap": "^3.7.4",
+    "@imagekit/astro": "^1.0.3",
     "@supabase/supabase-js": "^2.117.2",
     "astro": "^7.3.5"
   },

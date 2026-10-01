@@ -23,6 +23,7 @@ const imoveis = defineCollection({
     title: z.string(),
     description: z.string(),
     image: z.string().optional(),
+    gallery: z.array(z.string()).optional(),
     slug: z.string(),
 
     location: z.object({
