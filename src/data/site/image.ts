@@ -6,7 +6,7 @@ export function getImageUrl(path: string, width = 1200) {
     return path;
   }
 
-    let imageKitEndpoint = import.meta.env.PUBLIC_IMAGEKIT_URL_ENDPOINT?.replace(/\/$/, "");
+    let imageKitEndpoint = "https://ik.imagekit.io/zdhwy5gez";
 
   if (!imageKitEndpoint) {
     console.warn(
