@@ -7,5 +7,11 @@
   },
   "observability": {
     "enabled": false
+  },
+  "previews": {
+    "vars": {
+      "PUBLIC_SUPABASE_URL": "https://dakskmbylfyymkubkegi.supabase.co/",
+      "PUBLIC_SUPABASE_PUBLISHABLE_KEY": "sb_publishable_V-iPizeL-5jxxymcdgBP8w_rLOXfJeT"
+    }
   }
 }
