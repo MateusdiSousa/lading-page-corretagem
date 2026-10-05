@@ -6,13 +6,14 @@ featured: true
 financing:
   fgts: true
 gallery:
+- /imoveis/best-barra-funda/fachada.webp
 - /imoveis/best-barra-funda/sala.jpg
 - /imoveis/best-barra-funda/cozinha-1.jpg
 - /imoveis/best-barra-funda/quarto-maior.jpg
 - /imoveis/best-barra-funda/quarto-menor.jpg
 - /imoveis/best-barra-funda/mesa-jantar.jpg
 - /imoveis/best-barra-funda/sala-tv.jpg
-image: /imoveis/best-barra-funda/sala.jpg
+image: /imoveis/best-barra-funda/fachada.webp
 location:
   city: sao-paulo
   neighborhood: barra-funda
